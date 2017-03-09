@@ -1,0 +1,63 @@
+<% include header.ejs%>
+    <div class="container">
+    	<div class="row">
+    		<div  class="col-md-8">
+    			<form>
+    			<h1>Welcome</h1>
+    			  <div class="form-group">
+    			    <label for="exampleInputEmail1">用户名</label>
+    			    <input type="text" class="form-control" id="userName" placeholder="请输入用户名">
+    			  </div>
+    			  <div class="form-group">
+    			    <label for="exampleInputPassword1">密码</label>
+    			    <input type="password" class="form-control" id="pwd" placeholder="请输入密码">
+    			  </div>
+    			  <div class="checkbox">
+    			    <label>
+    			      <input type="checkbox"> 我遵守
+    			    </label>
+    			  </div>
+    			  <button type="button" id="login" class="btn btn-default">登录</button>
+    			</form>
+    			<hr>
+    			
+    			<footer>
+    			  <p>&copy; 2017 WKS, Inc.</p>
+    			</footer>
+    		</div>
+
+    	</div>
+    </div>
+      
+    <script src="/js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+    	$(function(){
+    		$('#login').click(function(){
+    			// 注册用ajax提交表单
+    		$.post('/doLogin',{
+    			'userName':$('#userName').val(),
+    			'pwd':$('#pwd').val()
+    		},function(r){
+    			if(r =='1'){
+    				// 注册成功
+    				alert('welcome');
+                    
+    				window.location='/';
+
+    			}else if(r=='-1'){
+    				// 用户名被占用
+    				alert('用户名不存在');
+
+    			}else if(r=='-2'){
+
+    				alert('密码错误')
+    			}
+    		})
+    	})
+    		})
+
+    		
+    </script>
+  </body>
+</html>

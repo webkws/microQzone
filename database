@@ -1,0 +1,14 @@
+
+不能转发的微博系统 
+注册 登录 可以发微博
+没有关注 收听机制  所有人的微博，都能被你看见
+按时间排序
+可以对一个微博进行 赞 评论
+数据库设计
+user集合存用户,username不能重复
+ {_oid:123321,'username':'jack',
+ 'pwd':'md5','avator':'url',
+ 'sign':'我就是我，不一样的烟火'}
+post集合，存储用户发表的文章
+{title:'标题','content':'content','author':'kws','date':'2017',
+'comment':[{'content','author','date'},{},{}],'zan':['小明','小强']}

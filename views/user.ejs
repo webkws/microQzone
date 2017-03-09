@@ -1,0 +1,26 @@
+<% include header.ejs%>
+
+    <div class="container">
+        <img src="/avator/<%=userAvator%>" alt=""/>
+        <h1><%=userName%>的个人主页</h1>
+            <%for(var i = 0 ; i < userAllS.length ; i++){%>
+                    
+                <div class="panel panel-default">
+                  <div class="panel-body">
+                    <%=userAllS[i].content%>
+                  </div>
+                  <div class="panel-footer"><%=userAllS[i].dateTime%></div>
+                </div>
+            <%}%>
+        
+    </div>
+      <hr>
+      <footer>
+        <p>&copy; 2017 WKS, Inc.</p>
+      </footer>
+    
+    <script src="/js/jquery-1.11.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+   
+  </body>
+</html>

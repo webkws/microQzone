@@ -1,0 +1,60 @@
+<% include header.ejs%>
+    <div class="container">
+    	<div class="row">
+    		<div  class="col-md-8">
+    			<form>
+    			<h1>欢迎注册</h1>
+    			  <div class="form-group">
+    			    <label for="exampleInputEmail1">用户名</label>
+    			    <input type="text" class="form-control" id="userName" placeholder="用户名可以是中文">
+    			  </div>
+    			  <div class="form-group">
+    			    <label for="exampleInputPassword1">密码</label>
+    			    <input type="password" class="form-control" id="pwd" placeholder="密码至少六位">
+    			  </div>
+    			  <div class="checkbox">
+    			    <label>
+    			      <input type="checkbox"> 我遵守注册规定
+    			    </label>
+    			  </div>
+    			  <button type="button" id="register" class="btn btn-default">注册</button>
+    			</form>
+    			<hr>
+    			
+    			<footer>
+    			  <p>&copy; 2017 WKS, Inc.</p>
+    			</footer>
+    		</div>
+
+    	</div>
+    </div>
+      
+    <script src="/js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+    	$(function(){
+    		$('#register').click(function(){
+    			// 注册用ajax提交表单
+    		$.post('/doRegister',{
+    			'userName':$('#userName').val(),
+    			'pwd':$('#pwd').val()
+    		},function(r){
+    			if(r =='1'){
+    				// 注册成功
+    				alert('恭喜您，注册成功');
+                    
+
+    				window.location='/';
+
+    			}else if(r=='-1'){
+    				// 用户名被占用
+    				alert('用户名被占用');
+    			}
+    		})
+    	})
+    		})
+
+    		
+    </script>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+<% include header.ejs%>
+
+    <div class="container">
+        
+        <h1>所有成员</h1>
+        <!-- Example row of columns -->
+        <div class="row">
+                <% for(var i = 0 ; i < allUsers.length ; i++){ %>
+                   <div class="col-xs-6 col-md-3">
+    <a style="width: 200px;height: 200px;" target="_blank" href="/user/<%= allUsers[i].userName %>" class="thumbnail">
+      <img src="/avator/<%= allUsers[i].avator %>" alt="没有头像的就是老用户，注册的太早了"/>
+    </a>
+     <p style="text-align: center;"> <%= allUsers[i].userName %></p>
+  </div>
+    
+                <% } %>
+                </div>
+    </div>
+
+      <hr>
+
+      <footer>
+        <p>&copy; 2017 WKS, Inc.</p>
+      </footer>
+    
+    <script src="/js/jquery-1.11.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+   
+  </body>
+</html>

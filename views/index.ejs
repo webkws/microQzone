@@ -1,0 +1,180 @@
+<% include header.ejs%>
+<style type="text/css">
+  .avator{
+    border-radius: 50%;
+  }
+</style>
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+    <% if(!login){%>
+      <div class="container">
+      <div class="row">
+      <div class="col-lg-6">
+        <h1>空间</h1>
+        <p>空间是我们交流的园地，欢迎注册</p>
+        <p><a class="btn btn-primary btn-lg" href="/register" role="button">注册 &raquo;</a></p>
+        </div>
+        <div class="col-lg-6">
+          <h2>已有账号登录</h2>
+          <form>
+            <div class="form-group">
+              <label for="exampleInputEmail1">用户名</label>
+              <input type="text" class="form-control" id="userName" placeholder="请输入用户名">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">密码</label>
+              <input type="password" class="form-control" id="pwd" placeholder="请输入密码">
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox"> 我遵守
+              </label>
+            </div>
+            <button type="button" id="login" class="btn btn-default">登录</button>
+          </form>
+        </div>
+      </div>
+      </div>
+      <% }else{%>
+        <div class="container">
+        <div class="row">
+          <div class="col-lg-1">
+            <h1><a href="/setavator"><img src="avator/<%=avator%>" alt=""></a></h1>
+            <p><%= userName%>，你好</p>
+          </div>
+          <div class="col-lg-6 col-lg-offset-3">
+            <textarea name="content" id="content" class="form-control" cols="80" rows="5"></textarea>
+           <button style="margin-top: 20px" id="post" type="button" class="btn btn-success">发表说说</button>
+            
+          </div>
+        </div>
+          
+        </div>
+
+      <%}%>
+    </div>
+
+    <div class="container">
+        <nav>
+            <ul class="pagination">
+
+            </ul>
+        </nav>
+
+      <!-- Example row of columns -->
+      <div class="row" id="allPost">
+
+       
+
+      </div>
+
+      <hr>
+
+      <footer>
+        <p>&copy; 2017 WKS, Inc.</p>
+      </footer>
+    <script type="text/template" id="moban">
+        <div class="col-md-4">
+          <h2><img width="40" class="avator" src="/avator/{{=avator}}" alt=""/>{{=userName}}说：</h2>
+
+          <p>{{=content}}</p>
+
+          <p>{{=dateTime}}</p>
+
+          <p><a class="btn btn-default" href="#" role="button">查看详细</a></p>
+        </div>
+
+    </script>
+    <script src="/js/jquery-1.11.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/underscore-noflect.js"></script>
+    <script type="text/javascript">
+
+         
+           $.get('/allNum',function(r){
+              var mount = parseInt(r);
+              var pageAmount = Math.ceil(mount/20); 
+              for (var i = 0; i < pageAmount; i++) {
+                 $(".pagination").append("<li><a href='javascript:void(0);'>" + i + "</a></li>");
+              }
+              $(".pagination li:first").addClass("active");
+              $(".pagination li").click(function () {
+                  var page = $(this).index();
+                  getPage(page);
+                  $(this).addClass("active").siblings().removeClass("active");
+              });
+          })
+          var compiled = _.template($("#moban").html());
+          getPage(0);
+          function getPage(pageNum){
+
+            $('#allPost').html('');
+            $.ajax({
+              'url':'/getallpost?pageNum='+pageNum,
+              'type':'get',
+              success:function(r){
+               iterator(0);
+               function iterator(i){
+                if(i ==r.length){
+                  return;
+                }
+                $.get('/getinfo?userName='+r[i].userName,function(r2){
+                    r[i].avator =r2.avator;
+                    var htmlString = compiled(r[i]);
+                    $('#allPost').append($(htmlString));
+                      iterator(i+1);
+                })
+               }
+              }
+            })
+          }
+
+
+          $('#login').click(function(){
+            // 注册用ajax提交表单
+          $.post('/doLogin',{
+            'userName':$('#userName').val(),
+            'pwd':$('#pwd').val()
+          },function(r){
+            if(r =='1'){
+              // 注册成功
+              alert('welcome');
+                       
+              window.location='/';
+
+            }else if(r=='-1'){
+              // 用户名被占用
+              alert('用户名不存在');
+
+            }else if(r=='-2'){
+
+              alert('密码错误')
+            }
+          })
+        });
+
+          $('#post').click(function(){
+
+            $.post('/post',{
+
+              'content':$('#content').val()
+
+            },function(r){
+
+              if(r=='1'){
+
+                alert('发布成功');
+                window.location ='/';
+
+              }else{
+
+                alert('请联系管理员1770676788')
+              }
+            })
+          })
+
+
+          
+       </script>
+  </body>
+</html>
